@@ -1,6 +1,8 @@
-import { ServerError } from './ServerError';
+import ServerError from './ServerError';
 
-export class NotFoundError extends Error implements ServerError {
+class NotFoundError extends Error implements ServerError {
   public name = 'NotFoundError';
+
   public statusCode = 404;
 }
+export default NotFoundError;

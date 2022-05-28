@@ -1,6 +1,9 @@
-import { ServerError } from './ServerError';
+import ServerError from './ServerError';
 
-export class UnauthorizedError extends Error implements ServerError {
+class UnauthorizedError extends Error implements ServerError {
   public name = 'UnauthorizedError';
+
   public statusCode = 401;
 }
+
+export default UnauthorizedError;

@@ -1,6 +1,9 @@
-import { ServerError } from './ServerError';
+import ServerError from './ServerError';
 
-export class ValidationError extends Error implements ServerError {
+class ValidationError extends Error implements ServerError {
   public name = 'ValidationError';
+
   public statusCode = 400;
 }
+
+export default ValidationError;

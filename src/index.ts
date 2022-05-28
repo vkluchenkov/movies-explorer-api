@@ -6,11 +6,11 @@ import helmet from 'helmet';
 import { config } from 'dotenv';
 import { errors } from 'celebrate';
 
-import { cors } from './middlwares/cors';
+import cors from './middlwares/cors';
 import { requestLogger, errorLogger } from './middlwares/logger';
-import { handleError } from './errors/handleError';
-import { router } from './routes';
-import { limiter } from './middlwares/limiter';
+import handleError from './errors/handleError';
+import router from './routes';
+import limiter from './middlwares/limiter';
 
 const app = express();
 
@@ -53,8 +53,13 @@ app.use(
     err: Error & { statusCode?: number },
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction
-  ) => handleError({ err, req, res, next })
+    next: express.NextFunction,
+  ) => handleError({
+    err,
+    req,
+    res,
+    next,
+  }),
 );
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT} :)`));
+app.listen(PORT);

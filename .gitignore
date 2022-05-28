@@ -1,6 +1,5 @@
 node_modules
-dist
+.dist
 .env
 *.log
 .prettierrc.json
-.editorconfig

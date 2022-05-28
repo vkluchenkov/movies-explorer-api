@@ -1,6 +1,9 @@
-import { ServerError } from './ServerError';
+import ServerError from './ServerError';
 
-export class ForbiddenError extends Error implements ServerError {
+class ForbiddenError extends Error implements ServerError {
   public name = 'ForbiddenError';
+
   public statusCode = 403;
 }
+
+export default ForbiddenError;

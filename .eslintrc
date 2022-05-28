@@ -5,10 +5,11 @@
     "es2021": true
   },
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "project": "./tsconfig.json"
   },
   "rules": {
     "no-underscore-dangle": ["error", { "allow": ["_id"] }]
   },
-  "extends": ["airbnb-base"]
+  "extends": ["airbnb-base", "airbnb-typescript/base"]
 }

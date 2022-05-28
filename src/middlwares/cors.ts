@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 const allowedCors = ['http://localhost:3001', 'https://mesto.bestpicture.pro'];
 
-export const cors = (req: Request, res: Response, next: NextFunction) => {
+const cors = (req: Request, res: Response, next: NextFunction) => {
   const { method } = req;
   const { origin } = req.headers;
 
@@ -23,3 +23,5 @@ export const cors = (req: Request, res: Response, next: NextFunction) => {
   next();
   return null;
 };
+
+export default cors;

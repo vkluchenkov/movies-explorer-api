@@ -92,7 +92,7 @@ export const updateMe = async (req: Request, res: Response, next: NextFunction) 
     const user = await UserModel.findByIdAndUpdate(
       req.user!._id,
       { name, email },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     if (user) {
       const dto = { email: user.email, name: user.name, _id: user._id };

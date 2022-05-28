@@ -1,6 +1,9 @@
-import { ServerError } from './ServerError';
+import ServerError from './ServerError';
 
-export class ConflictError extends Error implements ServerError {
+class ConflictError extends Error implements ServerError {
   public statusCode = 409;
+
   public name = 'ConflictError';
 }
+
+export default ConflictError;

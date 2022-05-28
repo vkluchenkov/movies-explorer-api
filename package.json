@@ -5,9 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node .dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q .dist/index.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "npx eslint ."
   },
   "keywords": [],
   "author": "Vladimir Kluchenkov",
@@ -35,6 +36,10 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/validator": "^13.7.2",
     "concurrently": "^7.2.0",
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
     "nodemon": "^2.0.16",
     "typescript": "^4.6.4"
   }
