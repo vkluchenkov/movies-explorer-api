@@ -12,6 +12,7 @@ import handleError from './errors/handleError';
 import router from './routes';
 import limiter from './middlwares/limiter';
 import devConfig from './devConfig';
+import ServerError from './errors/ServerError';
 
 const app = express();
 
@@ -51,7 +52,7 @@ app.use(errors());
 // Errors handler
 app.use(
   (
-    err: Error & { statusCode?: number },
+    err: Error | ServerError,
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
