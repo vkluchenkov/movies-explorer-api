@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
+import { config } from 'dotenv';
+import devConfig from '../../devConfig';
 
-const allowedCors = ['http://localhost:3001', 'https://mesto.bestpicture.pro'];
+config();
+
+const { NODE_ENV, ALLOWED_CORS } = process.env;
+
+const allowedCors = NODE_ENV === 'production' && ALLOWED_CORS ? ALLOWED_CORS : devConfig.devAllowedCors;
 
 const cors = (req: Request, res: Response, next: NextFunction) => {
   const { method } = req;

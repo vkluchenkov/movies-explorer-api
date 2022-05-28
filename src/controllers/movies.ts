@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { MoviePayload } from './types';
-import { ValidationError } from '../errors/ValidationError';
-import { ConflictError } from '../errors/ConflictError';
-import { NotFoundError } from '../errors/NotFoundError';
-import { MovieModel } from '../models/movies';
-import { ForbiddenError } from '../errors/ForbiddenError';
+import ValidationError from '../errors/ValidationError';
+import ConflictError from '../errors/ConflictError';
+import NotFoundError from '../errors/NotFoundError';
+import MovieModel from '../models/movies';
+import ForbiddenError from '../errors/ForbiddenError';
+import { errorMessages } from '../utils/messages';
 
 export const getMovies = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -22,9 +23,9 @@ export const addMovie = async (req: Request, res: Response, next: NextFunction) 
     res.send(movie);
   } catch (err: any) {
     if (err.code === 11000) {
-      next(new ConflictError('This movie already saved'));
+      next(new ConflictError(errorMessages.addMovieConflict));
     } else if (err.name === 'ValidationError' || err.name === 'CastError') {
-      next(new ValidationError('Incorrect data'));
+      next(new ValidationError(errorMessages.incorrectData));
       next(err);
     }
   }
@@ -35,13 +36,13 @@ export const deleteMovie = async (req: Request, res: Response, next: NextFunctio
     const movie = await MovieModel.findById(req.params.id);
     if (movie) {
       const isOwner = req.user!._id === movie.owner.toString();
-      if (!isOwner) throw new ForbiddenError('You are not the owner of this movie');
+      if (!isOwner) throw new ForbiddenError(errorMessages.notMovieOwner);
       await MovieModel.findByIdAndDelete(req.params.id);
-      res.send('Movie deleted');
-    } else throw new NotFoundError('No movie found');
+      res.send(errorMessages.movieDeleted);
+    } else throw new NotFoundError(errorMessages.movieNotFound);
   } catch (err: any) {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
-      next(new ValidationError('Incorrect data'));
+      next(new ValidationError(errorMessages.incorrectData));
       next(err);
     }
   }

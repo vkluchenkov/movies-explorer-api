@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import isURL from 'validator/lib/isURL';
 import { Movie } from '../controllers/types';
+import { errorMessages } from '../utils/messages';
 
 const movieSchema = new mongoose.Schema<Movie>({
   country: {
@@ -30,17 +31,17 @@ const movieSchema = new mongoose.Schema<Movie>({
   image: {
     type: String,
     required: true,
-    validate: [isURL, 'Incorrect url'],
+    validate: [isURL, errorMessages.incorrectUrl],
   },
   trailerLink: {
     type: String,
     required: true,
-    validate: [isURL, 'Incorrect url'],
+    validate: [isURL, errorMessages.incorrectUrl],
   },
   thumbnail: {
     type: String,
     required: true,
-    validate: [isURL, 'Incorrect url'],
+    validate: [isURL, errorMessages.incorrectUrl],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,

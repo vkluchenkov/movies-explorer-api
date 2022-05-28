@@ -3,24 +3,26 @@ import { config } from 'dotenv';
 import { sign } from 'jsonwebtoken';
 import { compare, hash } from 'bcryptjs';
 import { LoginPayload, PatchMePayload, SignupPayload } from './types';
-import { UserModel } from '../models/user';
-import { UnauthorizedError } from '../errors/UnauthorizedError';
-import { ValidationError } from '../errors/ValidationError';
-import { ConflictError } from '../errors/ConflictError';
-import { NotFoundError } from '../errors/NotFoundError';
+import UserModel from '../models/user';
+import UnauthorizedError from '../errors/UnauthorizedError';
+import ValidationError from '../errors/ValidationError';
+import ConflictError from '../errors/ConflictError';
+import NotFoundError from '../errors/NotFoundError';
+import devConfig from '../../devConfig';
+import { errorMessages, responseMessages } from '../utils/messages';
 
 config();
 const { NODE_ENV, JWT_SECRET } = process.env;
-const secret = NODE_ENV === 'production' && JWT_SECRET ? JWT_SECRET : 'dev-secret';
+const secret = NODE_ENV === 'production' && JWT_SECRET ? JWT_SECRET : devConfig.devSecret;
 
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password }: LoginPayload = req.body;
   try {
     const user = await UserModel.findOne({ email }).select('+password');
-    if (!user) throw new UnauthorizedError('Incorrect credentials');
+    if (!user) throw new UnauthorizedError(errorMessages.incorrectCredentials);
     else {
       const match = await compare(password, user.password);
-      if (!match) throw new UnauthorizedError('Incorrect credentials');
+      if (!match) throw new UnauthorizedError(errorMessages.incorrectCredentials);
       else {
         const token = sign({ _id: user._id }, secret, { expiresIn: '7d' });
         const dto = { email: user.email, name: user.name, _id: user._id };
@@ -54,9 +56,9 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
       .end();
   } catch (err: any) {
     if (err.code === 11000) {
-      next(new ConflictError('User with this email already exists'));
+      next(new ConflictError(errorMessages.userExists));
     } else if (err.name === 'ValidationError' || err.name === 'CastError') {
-      next(new ValidationError('Incorrect data'));
+      next(new ValidationError(errorMessages.incorrectData));
       next(err);
     }
   }
@@ -67,7 +69,7 @@ export const signout = async (req: Request, res: Response, next: NextFunction) =
     const user = await UserModel.findById(req.user!._id);
     if (user) {
       res.clearCookie('jwt');
-      res.send({ message: 'Succesfully signed out' });
+      res.send({ message: responseMessages.signedOut });
     }
   } catch (err) {
     next(err);
@@ -97,12 +99,12 @@ export const updateMe = async (req: Request, res: Response, next: NextFunction) 
     if (user) {
       const dto = { email: user.email, name: user.name, _id: user._id };
       res.send(dto);
-    } else throw new NotFoundError('User not found');
+    } else throw new NotFoundError(errorMessages.userNotFound);
   } catch (err: any) {
     if (err.code === 11000) {
-      next(new ConflictError('User with this email already exists'));
+      next(new ConflictError(errorMessages.userExists));
     } else if (err.name === 'ValidationError' || err.name === 'CastError') {
-      next(new ValidationError('Incorrect data'));
+      next(new ValidationError(errorMessages.incorrectData));
       next(err);
     }
   }

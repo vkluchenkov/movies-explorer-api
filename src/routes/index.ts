@@ -5,6 +5,7 @@ import Users from './users';
 import Movies from './movies';
 import NotFoundError from '../errors/NotFoundError';
 import { signinValidator, signupValidator } from '../middlwares/validator';
+import { errorMessages } from '../utils/messages';
 
 const router = Router();
 
@@ -19,6 +20,6 @@ router.use('/movies', Movies);
 router.get('/signout', signout);
 
 // Incorrect route handler
-router.use((req, res, next) => next(new NotFoundError('Route not found')));
+router.use((req, res, next) => next(new NotFoundError(errorMessages.routeNotFound)));
 
 export default router;

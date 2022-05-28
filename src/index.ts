@@ -11,11 +11,12 @@ import { requestLogger, errorLogger } from './middlwares/logger';
 import handleError from './errors/handleError';
 import router from './routes';
 import limiter from './middlwares/limiter';
+import devConfig from '../devConfig';
 
 const app = express();
 
 // Helmet and limiter
-app.use(helmet);
+app.use(helmet());
 app.use(limiter);
 
 // ENV constants
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Database
-const dbUrl = NODE_ENV === 'production' && DB ? DB : 'mongodb://localhost:27017/moviesdb';
+const dbUrl = NODE_ENV === 'production' && DB ? DB : devConfig.devDb;
 mongoose.connect(dbUrl);
 
 // Request logger
