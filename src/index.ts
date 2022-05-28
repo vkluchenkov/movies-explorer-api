@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as mongoose from 'mongoose';
+import helmet from 'helmet';
 import { config } from 'dotenv';
 import { errors } from 'celebrate';
 
@@ -9,8 +10,13 @@ import { cors } from './middlwares/cors';
 import { requestLogger, errorLogger } from './middlwares/logger';
 import { handleError } from './errors/handleError';
 import { router } from './routes';
+import { limiter } from './middlwares/limiter';
 
 const app = express();
+
+// Helmet and limiter
+app.use(helmet);
+app.use(limiter);
 
 // ENV constants
 config();
