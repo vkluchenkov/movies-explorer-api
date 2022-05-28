@@ -3,17 +3,12 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as mongoose from 'mongoose';
 import { config } from 'dotenv';
-
-import { auth } from './middlwares/auth';
-import { celebrate, Joi, errors } from 'celebrate';
+import { errors } from 'celebrate';
 
 import { cors } from './middlwares/cors';
 import { requestLogger, errorLogger } from './middlwares/logger';
-import { Users } from './routes/users';
-import { Movies } from './routes/movies';
-import { signin, signout, signup } from './controllers/users';
-import { NotFoundError } from './errors/NotFoundError';
 import { handleError } from './errors/handleError';
+import { router } from './routes';
 
 const app = express();
 
@@ -37,38 +32,8 @@ app.use(requestLogger);
 // CORS
 app.use(cors);
 
-// Open routes
-app.post(
-  '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  signin
-);
-
-app.post(
-  '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      name: Joi.string().min(2).max(30),
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-    }),
-  }),
-  signup
-);
-
-// Guarded routes
-app.use(auth);
-app.use('/users', Users);
-app.use('/movies', Movies);
-app.get('/signout', signout);
-
-// Incorrect route handler
-app.use((req, res, next) => next(new NotFoundError('Route not found')));
+// Router
+app.use(router);
 
 // Errors logger
 app.use(errorLogger);
