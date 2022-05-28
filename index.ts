@@ -1,7 +1,7 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as mongoose from 'mongoose';
+import { json, urlencoded } from 'body-parser';
+import { connect } from 'mongoose';
 import helmet from 'helmet';
 import { config } from 'dotenv';
 import { errors } from 'celebrate';
@@ -12,6 +12,7 @@ import handleError from './errors/handleError';
 import router from './routes';
 import limiter from './middlwares/limiter';
 import devConfig from './devConfig';
+import ServerError from './errors/ServerError';
 
 const app = express();
 
@@ -25,13 +26,13 @@ const PORT = process.env.PORT || 3000;
 const { NODE_ENV, DB } = process.env;
 
 // Parsers
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Database
 const dbUrl = NODE_ENV === 'production' && DB ? DB : devConfig.devDb;
-mongoose.connect(dbUrl);
+connect(dbUrl);
 
 // Request logger
 app.use(requestLogger);
@@ -51,7 +52,7 @@ app.use(errors());
 // Errors handler
 app.use(
   (
-    err: Error & { statusCode?: number },
+    err: Error | ServerError,
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
