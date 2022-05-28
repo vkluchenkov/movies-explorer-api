@@ -11,7 +11,7 @@ import { requestLogger, errorLogger } from './middlwares/logger';
 import handleError from './errors/handleError';
 import router from './routes';
 import limiter from './middlwares/limiter';
-import devConfig from '../devConfig';
+import devConfig from './devConfig';
 
 const app = express();
 

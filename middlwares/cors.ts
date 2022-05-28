@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { config } from 'dotenv';
-import devConfig from '../../devConfig';
+import devConfig from '../devConfig';
 
 config();
 

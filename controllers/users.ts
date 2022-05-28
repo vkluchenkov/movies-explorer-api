@@ -8,7 +8,7 @@ import UnauthorizedError from '../errors/UnauthorizedError';
 import ValidationError from '../errors/ValidationError';
 import ConflictError from '../errors/ConflictError';
 import NotFoundError from '../errors/NotFoundError';
-import devConfig from '../../devConfig';
+import devConfig from '../devConfig';
 import { errorMessages, responseMessages } from '../utils/messages';
 
 config();

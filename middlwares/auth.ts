@@ -2,7 +2,7 @@ import { verify } from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { Response, Request, NextFunction } from 'express';
 import UnauthorizedError from '../errors/UnauthorizedError';
-import devConfig from '../../devConfig';
+import devConfig from '../devConfig';
 import { errorMessages } from '../utils/messages';
 
 config();
