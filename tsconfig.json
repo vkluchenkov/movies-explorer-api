@@ -1,4 +1,8 @@
 {
+  "ts-node": {
+    "files": true
+  },
+  "files": ["index.ts", "express.d.ts"],
   "compilerOptions": {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

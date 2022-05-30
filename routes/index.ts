@@ -1,23 +1,20 @@
 import { Router } from 'express';
-import { signin, signout, signup } from '../controllers/users';
 import auth from '../middlwares/auth';
 import Users from './users';
 import Movies from './movies';
+import OpenRoutes from './open';
 import NotFoundError from '../errors/NotFoundError';
-import { signinValidator, signupValidator } from '../middlwares/validator';
 import { errorMessages } from '../utils/messages';
 
 const router = Router();
 
 // Open routes
-router.post('/signin', signinValidator, signin);
-router.post('/signup', signupValidator, signup);
+router.use(OpenRoutes);
 
 // Guarded routes
 router.use(auth);
-router.use('/users', Users);
-router.use('/movies', Movies);
-router.get('/signout', signout);
+router.use(Users);
+router.use(Movies);
 
 // Incorrect route handler
 router.use((req, res, next) => next(new NotFoundError(errorMessages.routeNotFound)));

@@ -4,8 +4,8 @@ import { addMovieValidator, deleteMovieValidator } from '../middlwares/validator
 
 const Movies = Router();
 
-Movies.get('/', getMovies);
-Movies.post('/', addMovieValidator, addMovie);
-Movies.delete('/:id', deleteMovieValidator, deleteMovie);
+Movies.get('/movies', getMovies);
+Movies.post('/movies', addMovieValidator, addMovie);
+Movies.delete('/movies/:id', deleteMovieValidator, deleteMovie);
 
 export default Movies;

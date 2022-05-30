@@ -31,7 +31,7 @@ export interface Movie {
   trailerLink: string;
   thumbnail: string;
   owner: ObjectId;
-  movieId: string;
+  movieId: number;
   nameRU: string;
   nameEN: string;
 }
@@ -43,9 +43,9 @@ export interface MoviePayload {
   year: number;
   description: string;
   image: string;
-  trailer: string;
+  trailerLink: string;
   thumbnail: string;
-  movieId: string;
+  movieId: number;
   nameRU: string;
   nameEN: string;
 }

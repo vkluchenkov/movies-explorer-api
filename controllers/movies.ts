@@ -17,9 +17,9 @@ export const getMovies = async (req: Request, res: Response, next: NextFunction)
 };
 
 export const addMovie = async (req: Request, res: Response, next: NextFunction) => {
-  const { trailer, ...rest }: MoviePayload = req.body;
+  const moviePayload: MoviePayload = req.body;
   try {
-    const movie = await MovieModel.create({ ...rest, owner: req.user!._id, trailerLink: trailer });
+    const movie = await MovieModel.create({ ...moviePayload, owner: req.user!._id });
     res.send(movie);
   } catch (err: any) {
     if (err.code === 11000) {
@@ -34,16 +34,17 @@ export const addMovie = async (req: Request, res: Response, next: NextFunction) 
 export const deleteMovie = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const movie = await MovieModel.findById(req.params.id);
-    if (movie) {
-      const isOwner = req.user!._id === movie.owner.toString();
-      if (!isOwner) throw new ForbiddenError(errorMessages.notMovieOwner);
-      await MovieModel.findByIdAndDelete(req.params.id);
-      res.send(errorMessages.movieDeleted);
-    } else throw new NotFoundError(errorMessages.movieNotFound);
+    if (!movie) throw new NotFoundError(errorMessages.movieNotFound);
+
+    const isOwner = req.user!._id === movie.owner.toString();
+    if (!isOwner) throw new ForbiddenError(errorMessages.notMovieOwner);
+
+    await MovieModel.findByIdAndDelete(req.params.id);
+    res.send(errorMessages.movieDeleted);
   } catch (err: any) {
     if (err.name === 'ValidationError' || err.name === 'CastError') {
       next(new ValidationError(errorMessages.incorrectData));
-      next(err);
     }
+    next(err);
   }
 };

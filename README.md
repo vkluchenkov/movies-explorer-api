@@ -10,4 +10,5 @@ Repository for backend of diploma project at Yandex.Practicum.
 - Mongo / Mongo Atlas DB.
 
 ### Live API preview
-[Movies api](https://moviesapi.bestpicture.pro)
+On subdomian [https://api.movies.bestpicture.pro](https://api.movies.bestpicture.pro)
+On the same domain as frontend [https://movies.bestpicture.pro/api](https://movies.bestpicture.pro/api)

@@ -9,7 +9,7 @@ export const signinValidator = celebrate({
 
 export const signupValidator = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
@@ -32,7 +32,7 @@ export const addMovieValidator = celebrate({
     image: Joi.string()
       .pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/)
       .required(),
-    trailer: Joi.string()
+    trailerLink: Joi.string()
       .pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/)
       .required(),
     thumbnail: Joi.string()

@@ -15,6 +15,9 @@ import devConfig from './devConfig';
 
 const app = express();
 
+// Request logger
+app.use(requestLogger);
+
 // Helmet and limiter
 app.use(helmet());
 app.use(limiter);
@@ -32,9 +35,6 @@ app.use(cookieParser());
 // Database
 const dbUrl = NODE_ENV === 'production' && DB ? DB : devConfig.devDb;
 connect(dbUrl);
-
-// Request logger
-app.use(requestLogger);
 
 // CORS
 app.use(cors);
@@ -55,12 +55,11 @@ app.use(
     req: express.Request,
     res: express.Response,
     next: express.NextFunction,
-  ) => handleError({
-    err,
-    req,
-    res,
-    next,
-  }),
+  ) => handleError(
+    {
+      err, req, res, next,
+    },
+  ),
 );
 
 app.listen(PORT);
