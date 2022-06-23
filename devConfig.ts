@@ -3,6 +3,7 @@ const devConfig = {
   devSecret: 'dev-secret',
   devAllowedCors: [
     'http://localhost:3000',
+    'http://localhost:3000/',
     'http://localhost:3001',
   ],
 };

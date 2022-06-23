@@ -51,6 +51,7 @@ export const signup = async (req: Request, res: Response, next: NextFunction) =>
       .cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
+        sameSite: 'none',
       })
       .send(dto)
       .end();

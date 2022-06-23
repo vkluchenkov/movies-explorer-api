@@ -25,7 +25,7 @@ export interface Movie {
   country: string;
   director: string;
   duration: number;
-  year: number;
+  year: string;
   description: string;
   image: string;
   trailerLink: string;
@@ -40,7 +40,7 @@ export interface MoviePayload {
   country: string;
   director: string;
   duration: number;
-  year: number;
+  year: string;
   description: string;
   image: string;
   trailerLink: string;

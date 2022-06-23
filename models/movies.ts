@@ -16,8 +16,12 @@ const movieSchema = new mongoose.Schema<Movie>({
     maxlength: 30,
     required: true,
   },
-  year: {
+  duration: {
     type: Number,
+    required: true,
+  },
+  year: {
+    type: String,
     minlength: 4,
     maxlength: 4,
     required: true,
@@ -25,7 +29,7 @@ const movieSchema = new mongoose.Schema<Movie>({
   description: {
     type: String,
     minlength: 2,
-    maxlength: 200,
+    maxlength: 1000,
     required: true,
   },
   image: {
@@ -50,7 +54,6 @@ const movieSchema = new mongoose.Schema<Movie>({
   },
   movieId: {
     type: Number,
-    unique: true,
     required: true,
   },
   nameRU: {
