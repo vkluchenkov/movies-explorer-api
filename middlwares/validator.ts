@@ -27,7 +27,7 @@ export const addMovieValidator = celebrate({
     country: Joi.string().min(2).max(30).required(),
     director: Joi.string().min(2).max(30).required(),
     duration: Joi.number().required(),
-    year: Joi.number().min(1900).max(2025).required(),
+    year: Joi.string(),
     description: Joi.string().required(),
     image: Joi.string()
       .pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/)
@@ -38,7 +38,7 @@ export const addMovieValidator = celebrate({
     thumbnail: Joi.string()
       .pattern(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/)
       .required(),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
@@ -46,6 +46,6 @@ export const addMovieValidator = celebrate({
 
 export const deleteMovieValidator = celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().min(24).max(24),
+    movieId: Joi.number().required(),
   }),
 });
